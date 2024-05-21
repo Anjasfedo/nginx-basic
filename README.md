@@ -51,3 +51,28 @@ events {
 
 }
 ```
+
+# Proxy Pass
+
+```
+http {
+		server {
+		listen 80; # Assuming you want to serve on the default HTTP port
+
+		server_name _;
+
+		location / {
+			proxy_pass http://localhost:3000; # Pass requests to your Rails app running on localhost
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_set_header X-Forwarded-Proto $scheme;
+		}
+	}
+
+}
+
+events {
+
+}
+```
