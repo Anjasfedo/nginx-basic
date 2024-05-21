@@ -7,3 +7,18 @@ client - network - nginx - server
 can be incraise server, and serve to network as one server? (nginx)
 
 reverse proxy, load balancer, encryption, scalability
+
+# Serve Static Conten
+```
+http {
+	server {
+		listen 8080;
+		root /var/www/nginx-basic;
+		index index.html;
+	}
+}
+events {
+
+}
+```
+- Make sure to give proper access to the file
