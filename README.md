@@ -129,3 +129,59 @@ events {
 
 }
 ```
+
+## Redirect & rewrite
+```
+http {
+
+	include mime.types;
+
+	server {
+		listen 8080;
+		root /var/www/nginx-basic/;
+		index index.html;
+
+		location /fruits {
+			root /var/www/nginx-basic/;
+			index index.html;
+		}
+
+		location /carbs {
+			alias /var/www/nginx-basic/fruits;
+			index index.html;
+		}
+
+		# try search
+		location /vegetables {
+			alias /var/www/nginx-basic/;
+			try_files /vegetables/veggies.html /index.html =404;
+		}
+
+		# regex
+		location ~* /count/[0-9] {
+			alias /var/www/nginx-basic/;
+			try_files /index.html =404;
+		}
+
+		# Redirect
+		location /crops {
+			return 307 /fruits;
+		}
+
+		# Rewrite
+		rewrite ^/number/(\w+) /count/$1;
+
+		location / {
+			try_files $uri $uri/ =404;
+		}
+
+		location /css/ {
+			try_files $uri $uri/ =404;
+		}
+	}
+}
+
+events {
+
+}
+```
